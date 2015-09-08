@@ -211,18 +211,11 @@
         To use the non-XA variety just specify the normal JDBC parameters (like jdbc-uri, etc) and leave out the
         xa-properties element. If the xa-properties element is present the normal JDBC parameters will be ignored.
         -->
-
-        <datasource group-name="transactional" database-conf-name="h2" schema-name=""
-                start-server-args="-tcpPort 9092 -ifExists -baseDir ${moqui.runtime}/db/h2">
-            <!-- with this setup you can connect remotely using "jdbc:h2:tcp://localhost:9092/MoquiDEFAULT" -->
-            <inline-jdbc pool-minsize="5" pool-maxsize="50">
-                <xa-properties url="jdbc:h2:${moqui.runtime}/db/h2/MoquiDEFAULT" user="sa" password="sa"/>
-            </inline-jdbc>
-            <!-- <inline-jdbc jdbc-uri="jdbc:h2:${moqui.runtime}/db/h2/MoquiDEFAULT"
-                         jdbc-username="sa" jdbc-password=""
-                         pool-minsize="5" pool-maxsize="50"/> -->
-            <!-- <jndi-jdbc jndi-name="java:/MoquiDEFAULTDataSource"/> -->
+        
+        <datasource group-name="transactional" database-conf-name="mysql" schema-name="">
+            <inline-jdbc jdbc-uri="jdbc:mysql://127.0.0.1:3306/MoquiTransactional?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8" jdbc-username="moqui" jdbc-password="moqui" pool-minsize="2" pool-maxsize="50"/>  
         </datasource>
+
         <!-- The entity-facade.default-group-name=transactional, so if other entity groups do not have a data source
             the transactional group's datasource will be used. -->
 
@@ -238,6 +231,10 @@
             </inline-jdbc>
         </datasource>
         -->
+        <datasource group-name="analytical" database-conf-name="mysql" schema-name="">
+            <inline-jdbc jdbc-uri="jdbc:mysql://127.0.0.1:3306/MoquiAnalytical?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"  
+            jdbc-username="moqui" jdbc-password="moqui" pool-minsize="2" pool-maxsize="50"/>  
+        </datasource>  
         <!-- Above the nosql group is in the transactional db by default. To use OrientDB use this instead: -->
         <!-- NOTE: startup-add-missing=true is required because OrientDB doesn't allow class create in a TX -->
         <!--
@@ -248,12 +245,16 @@
         -->
 
         <!-- The tenantcommon group can also in the same DB, but MUST have a separate definition for multi-tenant to work -->
-        <datasource group-name="tenantcommon" database-conf-name="h2" schema-name="">
+        <!-- <datasource group-name="tenantcommon" database-conf-name="h2" schema-name="">
             <inline-jdbc pool-minsize="2" pool-maxsize="10">
                 <xa-properties url="jdbc:h2:${moqui.runtime}/db/h2/MoquiDEFAULT" user="sa" password="sa"/>
             </inline-jdbc>
+        </datasource> -->
+        
+        <datasource group-name="tenantcommon" database-conf-name="mysql" schema-name="">
+            <inline-jdbc jdbc-uri="jdbc:mysql://127.0.0.1:3306/MoquiTenant?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"  
+            jdbc-username="moqui" jdbc-password="moqui" pool-minsize="2" pool-maxsize="50"/>  
         </datasource>
-
 
         <!-- ===== some examples of how other databases would be configured ===== -->
 

@@ -224,6 +224,7 @@ dependencies {
 
     runtime group: 'oro', name: 'oro', version: '2.0.8' // Apache 2.0
 
+    runtime name: 'mysql-connector-java', version: '5.1.31' // Apache 2.0  
     // shiro-ehcache is good for caching auth in distributed environments, but has some quirks so not enabled by default (see shiro.ini)
     // runtime name: 'shiro-ehcache', version: '1.2.4' // Apache 2.0
     // runtime name: 'shiro-quartz', version: '1.2.4' // Apache 2.0
